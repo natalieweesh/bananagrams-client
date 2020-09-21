@@ -1,0 +1,14 @@
+.instructions {
+  display: flex;
+  flex-direction: column;
+}
+.instructions p {
+  margin: 1rem 2rem;
+}
+.instructions table {
+  margin: 0 auto;
+}
+.instructions table td {
+  border: 1px solid black;
+  padding: 1rem;
+}

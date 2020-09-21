@@ -1,0 +1,249 @@
+@keyframes flash {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    transorm: scale(1);
+  }
+  25%, 50% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.outerContainer {
+  width: 2700px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1A1A1D;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 8px;
+  height: 60%;
+  width: 35%;
+  min-height: 400px;
+}
+
+.max-height {
+  max-height: 500px;
+  height: 500px;
+}
+.shrink {
+  animation: shrink 1s 1 forwards;
+}
+.sideContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  width: 1000px;
+  height: 220px;
+  align-items: center;
+  color: white;
+}
+.users-list {
+  margin-left: 5rem;
+}
+
+.tips {
+  margin: 0 3rem;
+  background: #F1C400;
+  max-width: 250px;
+  color: black;
+  border-radius: 5px;
+  padding: 2rem;
+  text-align: center;
+}
+.tips.inverse {
+  background: transparent;
+  color: #F1C400;
+  border: 5px solid #F1C400;
+}
+.startButton {
+  line-height: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #89c589;
+  padding: 20px;
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+}
+.startButton:hover {
+  cursor: pointer;
+}
+.modal {
+  color: black;
+  text-align: center;
+}
+.rulesButton {
+  background: #e7d1b8;
+  border: 0;
+  padding: 2rem;
+  margin-left: 3rem;
+  border-radius: 5px;
+}
+.rulesButton:hover {
+  cursor: pointer;
+}
+
+.attentionModal {
+  display: flex;
+  background: #e7d1b8;
+  color: black;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  text-align: center;;
+}
+
+.square {
+  background: #F1C400;
+  width: 700px;
+  height: 700px;
+}
+
+.item.flash {
+  animation: flash 0.75s 1 forwards;
+}
+.item {
+  background: #e7d1b8;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: inline-block;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 #fff3e6;
+  box-sizing: content-box;
+  font-size: 2.5rem;
+  line-height: 45px;
+  text-align: center;
+}
+
+.item.poop {
+  background: #e7d1b8;
+  box-shadow: 4px 4px 0 #fff3e6;
+  color: transparent;
+  border: 1px solid #e7d1b8;
+}
+
+.item.poop img {
+  display: none;
+}
+
+.item.poop.sideways {
+  transform: rotate(90deg)!important;
+}
+
+.player-space {
+  width: 1000px;
+  height: 1000px;
+  border-radius: 10px;
+  border: 10px solid gray;
+  text-align: center;
+}
+.player-space p {
+  padding-top: 3rem;
+  color: white;
+}
+.player-space.player-3, .player-space.player-0 {
+  margin: 0 auto;
+}
+.square, .player-space.player-1, .player-space.player-2 {
+  display: inline-block;
+}
+.player-space.player-1, .player-space.player-2 {
+  height: 700px;
+}
+.player-space.player-4 {
+  border-color: pink;
+}
+.player-space.player-0 {
+  border-color: peru;
+}
+.player-space.player-5 {
+  border-color: #efef3a;
+}
+.player-space.player-3 {
+  border-color: lightgreen;
+}
+.player-space.player-4 {
+  border-color: lightskyblue;
+}
+.player-space.player-6 {
+  border-color: plum;
+}
+.player-space.player-7 {
+  border-color: royalblue;
+}
+.player-space.player-1 {
+  border-color: navajowhite;
+}
+.player-space.player-2 {
+  border-color: palevioletred;
+}
+
+.second-row {
+  margin: 0 auto;
+  display: flex;
+}
+
+.notSplit .item {
+  color: transparent!important;
+}
+.revealAll .item {
+  background: #e7d1b8!important;
+  box-shadow: 4px 4px 0 #fff3e6!important;
+  color: black;
+}
+
+.endGame {
+  background: #444444;
+  border-radius: 5px;
+  border: 0;
+  color: white;
+  padding: 2rem;
+}
+.endGame:hover {
+  cursor: pointer;
+}
+
+.outerContainer.player-0 .player-space.player-0,
+.outerContainer.player-1 .player-space.player-1,
+.outerContainer.player-2 .player-space.player-2,
+.outerContainer.player-3 .player-space.player-3,
+.outerContainer.player-4 .player-space.player-4,
+.outerContainer.player-5 .player-space.player-5,
+.outerContainer.player-6 .player-space.player-6,
+.outerContainer.player-7 .player-space.player-7 {
+  background: #F1C400;
+}
+
+.outerContainer.player-0 .player-space.player-0 p,
+.outerContainer.player-1 .player-space.player-1 p,
+.outerContainer.player-2 .player-space.player-2 p,
+.outerContainer.player-3 .player-space.player-3 p,
+.outerContainer.player-4 .player-space.player-4 p,
+.outerContainer.player-5 .player-space.player-5 p,
+.outerContainer.player-6 .player-space.player-6 p,
+.outerContainer.player-7 .player-space.player-7 p {
+  color: black;
+}
