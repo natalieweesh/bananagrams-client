@@ -30,7 +30,7 @@ const Game = ({ location }) => {
   const setTileClass = (x, y, user, tile, animate) => {
     let className;
     let tileId = tile.element.id;
-    if (x > 1000 && x < 1700 && y > 1120 && y < 1920 && user) {
+    if (x > 1000 && x < 1700 && y > 1160 && y < 1920) {
       // console.log("in no mans land", x, y, user)
       className = 'item poop';
     } else {
