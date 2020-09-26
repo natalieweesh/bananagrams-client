@@ -1,27 +1,3 @@
-@keyframes flash {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes shrink {
-  0% {
-    transorm: scale(1);
-  }
-  25%, 50% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .outerContainer {
   width: 2700px;
   justify-content: center;
@@ -45,9 +21,6 @@
 .max-height {
   max-height: 500px;
   height: 500px;
-}
-.shrink {
-  animation: shrink 1s 1 forwards;
 }
 .sideContainer {
   display: flex;
@@ -121,9 +94,6 @@
   height: 700px;
 }
 
-.item.flash {
-  animation: flash 0.75s 1 forwards;
-}
 .item {
   background: #e7d1b8;
   width: 40px;
@@ -145,12 +115,10 @@
   border: 1px solid #e7d1b8;
 }
 
-.item.poop img {
+.item.limbo, .item.poop.limbo {
   display: none;
-}
-
-.item.poop.sideways {
-  transform: rotate(90deg)!important;
+  opacity: 0;
+  color: transparent;
 }
 
 .player-space {

@@ -11,7 +11,9 @@ let socket;
 
 const Game = ({ location }) => {
   const [name, setName] = useState('');
+  const currentName = useRef(null);
   const [room, setRoom] = useState('');
+  const currentUser = useRef(null);
   const [prevmessages, setPrevMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [currentGame, setCurrentGame] = useState([]);
@@ -27,9 +29,14 @@ const Game = ({ location }) => {
   // const ENDPOINT = 'localhost:5000';
   const ENDPOINT = 'https://bananagrams-app.herokuapp.com/';
 
-  const setTileClass = (x, y, user, tile, animate) => {
+  const setTileClass = (x, y, user, tile, limbo) => {
     let className;
     let tileId = tile.element.id;
+    if (limbo && currentUser.current && user.orderIndex !== currentUser.current.orderIndex) {
+      // console.log('limbo this tile', tile, user)
+      document.getElementById(tileId).className = 'item limbo';
+      return;
+    }
     if (x > 1000 && x < 1700 && y > 1160 && y < 1920) {
       // console.log("in no mans land", x, y, user)
       className = 'item poop';
@@ -45,6 +52,7 @@ const Game = ({ location }) => {
     socket = io(ENDPOINT);
 
     setName(name.trim().toLowerCase());
+    currentName.current = name.trim().toLowerCase();
     setRoom(room.trim().toLowerCase());
 
     socket.emit('join', { name, room }, ((e) => {
@@ -64,8 +72,12 @@ const Game = ({ location }) => {
 
   useEffect(() => {
     socket.off('roomData').on('roomData', ({ users }) => {
-      console.log('Room Data', users)
+      // console.log('Room Data', users)
+      // console.log('name?', currentName.current)
       setUsers(users);
+      if (!currentUser.current) {
+        currentUser.current = users.find((u) => u.name.trim().toLowerCase() === currentName.current)
+      }
     })
     socket.off('gameStatus').on('gameStatus', ({ game }) => {
       // console.log('Game Status', game);
@@ -76,7 +88,7 @@ const Game = ({ location }) => {
           if (card.x && card.y) {
             let tile = draggables.current.find((d) => d.element.id === card.id);
             tile.set(card.x, card.y);
-            setTileClass(card.x, card.y, card.user, tile, false, false);
+            setTileClass(card.x, card.y, card.user, tile);
           }
         })
       }
@@ -107,8 +119,13 @@ const Game = ({ location }) => {
     socket.off('tileMoved').on('tileMoved', ({el, x, y, user, settingUp}) => {
       // console.log('received tilemoved', el, x, y, user);
       const tile = draggables.current.filter((e) => e.element.id === el)[0];
-      setTileClass(x, y, user, tile, true);
+      setTileClass(x, y, user, tile);
       tile.set(x, y);
+    })
+    socket.off('tileLimboed').on('tileLimboed', ({el, x, y, user}) => {
+      const tile = draggables.current.filter((e) => e.element.id === el)[0];
+      // console.log('in tileLimboed', name)
+      setTileClass(x, y, user, tile, true);
     })
 
     document.querySelectorAll('.item').forEach((el) => {
@@ -116,6 +133,9 @@ const Game = ({ location }) => {
         socket.emit('moveTile', {el: el.id, x, y, settingUp: false}, () => {
           // console.log('tile moved on Drag End!', el.id, x, y);
         })
+      }, onDragStart: (el, x, y) => {
+        socket.emit('limboTile', {el: el.id, x, y}, () => {})
+        // console.log('starting drag!', el, x, y)
       }}));
     })
     // scatter the tiles!
@@ -214,8 +234,9 @@ const Game = ({ location }) => {
   }
 
   const user = users.find((user) => user.name === name);
+  currentUser.current = user;
   // console.log("USER", user);
-  console.log('current game', currentGame)
+  // console.log('current game', currentGame)
   const myTurn = currentGame.currentRound === user?.orderIndex;
   // console.log('my turn?', myTurn)
   return (
