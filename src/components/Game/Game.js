@@ -265,7 +265,7 @@ const Game = ({ location }) => {
   const user = users.find((user) => user.name === name);
   currentUser.current = user;
   // console.log("USER", user);
-  // console.log('current game', currentGame)
+  console.log('current game', currentGame)
   const myTurn = currentGame.currentRound === user?.orderIndex;
   // console.log('my turn?', myTurn)
   return (
