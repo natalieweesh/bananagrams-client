@@ -20,7 +20,7 @@ const Rules = () => {
       <p>Now try to form a crossword puzzle with your letters</p>
       <p>Whenever you have completed your crossword with valid words, you say PEEL! and take another letter from the central square</p>
       <p>Then you'll have to fit that new letter into your crossword</p>
-      <p>At any point during the game you may put a letter back that you don't want, but you have to say DUMP! and take two new letters instead</p>
+      <p>At any point during the game you may put a letter back that you don't want, but you have to say DUMP! and take three new letters instead</p>
       <p>When there are not enough tiles left in the center for everyone to grab another one, then whoever completes their crossword first yells BANANAS! and wins the game</p>
       <p></p>
       <p>These are the tile counts:</p>

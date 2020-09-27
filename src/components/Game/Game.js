@@ -23,6 +23,7 @@ const Game = ({ location }) => {
   const [poop, setPoop] = useState(false);
   const [cards, setCards] = useState(tiles["tiles"]);
   const draggables = useRef([]);
+  const dragging = useRef(false);
   const [modal, setModal] = useState('');
 
   // TODO: change this for prod / dev
@@ -118,22 +119,36 @@ const Game = ({ location }) => {
     })
     socket.off('tileMoved').on('tileMoved', ({el, x, y, user, settingUp}) => {
       // console.log('received tilemoved', el, x, y, user);
-      const tile = draggables.current.filter((e) => e.element.id === el)[0];
-      setTileClass(x, y, user, tile);
-      tile.set(x, y);
+      if (!dragging.current) {
+        console.log('tilemoved and not dragging')
+        const tile = draggables.current.filter((e) => e.element.id === el)[0];
+        setTileClass(x, y, user, tile);
+        tile.set(x, y);
+      } else {
+        console.log('tilemoved and dragging')
+      }
     })
     socket.off('tileLimboed').on('tileLimboed', ({el, x, y, user}) => {
-      const tile = draggables.current.filter((e) => e.element.id === el)[0];
-      // console.log('in tileLimboed', name)
-      setTileClass(x, y, user, tile, true);
+      if (!dragging.current) {
+        console.log('tileLimboed and not dragging')
+        const tile = draggables.current.filter((e) => e.element.id === el)[0];
+        // console.log('in tileLimboed', name)
+        setTileClass(x, y, user, tile, true);
+      } else {
+        console.log('tilemoved and dragging')
+      }
     })
 
     document.querySelectorAll('.item').forEach((el) => {
       draggables.current.push(new Draggable(el, {onDragEnd: (el, x, y, event) => {
+        dragging.current = false;
+        console.log('set dragging to ', dragging.current)
         socket.emit('moveTile', {el: el.id, x, y, settingUp: false}, () => {
           // console.log('tile moved on Drag End!', el.id, x, y);
         })
       }, onDragStart: (el, x, y) => {
+        dragging.current = true;
+        console.log('set dragging to ', dragging.current)
         socket.emit('limboTile', {el: el.id, x, y}, () => {})
         // console.log('starting drag!', el, x, y)
       }}));
