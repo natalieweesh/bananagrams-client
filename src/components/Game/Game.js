@@ -117,20 +117,34 @@ const Game = ({ location }) => {
         document.getElementById(d.element.id).className = 'item poop';
       })
     })
-    socket.off('tileMoved').on('tileMoved', ({el, x, y, user, settingUp}) => {
+    socket.off('tileMoved').on('tileMoved', ({el, x, y, user, allCards}) => {
       // console.log('received tilemoved', el, x, y, user);
       if (!dragging.current) {
         console.log('tilemoved and not dragging')
-        const tile = draggables.current.filter((e) => e.element.id === el)[0];
-        setTileClass(x, y, user, tile);
-        tile.set(x, y);
+        allCards.map((c) => {
+          if (c.x && c.y) {
+            const tile = draggables.current.filter((e) => e.element.id === c.id)[0];
+            setTileClass(el.id === c.id ? x : c.x, el.id === c.id ? y : c.y, user, tile);
+            tile.set(el.id === c.id ? x : c.x, el.id === c.id ? y : c.y);
+          }
+        })
+        // const tile = draggables.current.filter((e) => e.element.id === el)[0];
+        // setTileClass(x, y, user, tile);
+        // tile.set(x, y);
       } else {
         console.log('tilemoved and dragging')
       }
     })
-    socket.off('tileLimboed').on('tileLimboed', ({el, x, y, user}) => {
+    socket.off('tileLimboed').on('tileLimboed', ({el, x, y, user, allCards}) => {
       if (!dragging.current) {
         console.log('tileLimboed and not dragging')
+        // allCards.map((c) => {
+        //   if (c.x && c.y) {
+        //     const tile = draggables.current.filter((e) => e.element.id === c.id)[0];
+        //     setTileClass(c.id === el.id ? x : c.x, c.id === el.id ? y : c.y, user, tile, c.id === el.id ? true : false);
+        //     tile.set(c.id === el.id ? x : c.x, c.id === el.id ? y : c.y);
+        //   }
+        // })
         const tile = draggables.current.filter((e) => e.element.id === el)[0];
         // console.log('in tileLimboed', name)
         setTileClass(x, y, user, tile, true);
